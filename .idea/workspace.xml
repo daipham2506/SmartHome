@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bfe3ffd6-2953-48dc-89eb-185700b76666" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1atrp5koUHCRJiw8vvq40cZ8zYP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bfe3ffd6-2953-48dc-89eb-185700b76666" name="Default Changelist" comment="" />
+      <created>1587565911014</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587565911014</updated>
+      <workItem from="1587565915963" duration="864000" />
+      <workItem from="1587609529814" duration="8000" />
+      <workItem from="1587830292054" duration="75000" />
+      <workItem from="1587985674102" duration="1665000" />
+      <workItem from="1587994535606" duration="185000" />
+      <workItem from="1587994884895" duration="554000" />
+      <workItem from="1587995458985" duration="18000" />
+    </task>
+    <task id="LOCAL-00001" summary="Remove unnecessary">
+      <created>1587567025451</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1587567025452</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Remove unnecessary">
+      <created>1587994711082</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1587994711082</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Remove unnecessary" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unnecessary" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="499" y="97" width="912" height="910" key="CommitChangelistDialog2" timestamp="1587994710889">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="499" y="97" width="912" height="910" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1587994710889" />
+    <state x="685" y="236" width="540" height="633" key="RollbackChangesDialog" timestamp="1587565963979">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="685" y="236" width="540" height="633" key="RollbackChangesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1587565963979" />
+    <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1587994725969">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1587994725969" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1587830344363">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1587830344363" />
+  </component>
+</project>
