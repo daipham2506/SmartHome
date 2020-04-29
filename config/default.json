@@ -1,0 +1,4 @@
+{
+  "mongoURL": "mongodb+srv://daipham2506:daipham2506@smarthome-vb4hs.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mySecretToken{2506}"
+}
