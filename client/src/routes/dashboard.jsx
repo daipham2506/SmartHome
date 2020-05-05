@@ -13,6 +13,8 @@ import Wizard from "views/Forms/Wizard.jsx";
 import RegularTables from "views/Tables/RegularTables.jsx";
 import ExtendedTables from "views/Tables/ExtendedTables.jsx";
 import ReactTables from "views/Tables/ReactTables.jsx";
+import LoginPage from "../views/Pages/LoginPage";
+import RegisterPage from "views/Pages/RegisterPage.jsx";
 
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
@@ -20,9 +22,10 @@ import Apps from "material-ui-icons/Apps";
 import ContentPaste from "material-ui-icons/ContentPaste";
 import GridOn from "material-ui-icons/GridOn";
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
-import LoginPage from "../views/Pages/LoginPage";
+import PersonAdd from "material-ui-icons/PersonAdd";
 
-var dashRoutes = [
+
+var dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -135,7 +138,18 @@ var dashRoutes = [
       }
     ]
   },
-  { path: "/user/login-page", name: "Logout", icon: ExitToAppIcon, component: LoginPage },
-  { redirect: true, path: "/", pathTo: "/user/login-page", name: "Login Page" }
+  { 
+    path: "/add-user", 
+    name: "Add User", 
+    icon: PersonAdd, 
+    component: RegisterPage 
+  },
+  { 
+    path: "/user/login-page", 
+    name: "Logout", 
+    icon: ExitToAppIcon, 
+    component: LoginPage 
+  },
+  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
 ];
-export default dashRoutes;
+export default dashboardRoutes;

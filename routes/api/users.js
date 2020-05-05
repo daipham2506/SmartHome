@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 
       if (user) {
          return res.status(400).json({
-            error: 'User already exists'
+            error: 'User already exists!'
          })
       }
 
@@ -45,9 +45,7 @@ router.post('/', async (req, res) => {
       //return jsonwebtoken
       const payload = {
          user: {
-            id: user.id,
-            name: user.name,
-            avatar: user.avatar
+            id: user.id
          }
       }
 

@@ -1,23 +1,26 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // material-ui components
 import withStyles from "material-ui/styles/withStyles";
-import Checkbox from "material-ui/Checkbox";
-import FormControlLabel from "material-ui/Form/FormControlLabel";
 
-// material-ui-icons
-import Check from "material-ui-icons/Check";
+import { Spin, message } from 'antd';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import ItemGrid from "components/Grid/ItemGrid.jsx";
-import RegularCard from "components/Cards/RegularCard.jsx";
+import IconCard from "components/Cards/IconCard.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import IconButton from "components/CustomButtons/IconButton.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
+// material-ui-icons
+import PersonAdd from "material-ui-icons/PersonAdd";
+
 import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+
+import { verifyEmail, verifyPassword, verifyLength } from '../../utils/validation'
+import { addUser, reset } from '../../appRedux/actions/auth'
 
 class RegisterPage extends React.Component {
   constructor(props) {
@@ -50,38 +53,25 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return emailRex.test(value)
-  }
-  // function that returns true if value at least 6 characters, including lowercase, UPPERCASE and number, false otherwise
-  verifyPassword(value) {
-    var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$/;
-    return regex.test(value)
-  }
-  // function that verifies if a string has a given length or not
-  verifyLength(value, length) {
-    return (value.length >= length) 
-  }
+
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
       case "email":
-        if (this.verifyEmail(event.target.value)) {
+        if (verifyEmail(event.target.value)) {
           this.setState({ [stateName + "State"]: 1 });
         } else {
           this.setState({ [stateName + "State"]: 0 });
         }
         break;
       case "password":
-        if (this.verifyPassword(event.target.value)) {
+        if (verifyPassword(event.target.value)) {
           this.setState({ [stateName + "State"]: 1 });
         } else {
           this.setState({ [stateName + "State"]: 0 });
         }
         break;
       case "length":
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+        if (verifyLength(event.target.value, stateNameEqualTo)) {
           this.setState({ [stateName + "State"]: 1 });
         } else {
           this.setState({ [stateName + "State"]: 0 });
@@ -100,8 +90,8 @@ class RegisterPage extends React.Component {
     this.setState({ [stateName]: event.target.value });
   }
   isValidated() {
-    if (this.state.passwordState === 1 && this.state.emailState === 1 
-        && this.state.nameState === 1 && this.state.password2 === 1) {
+    if (this.state.passwordState === 1 && this.state.emailState === 1
+      && this.state.nameState === 1 && this.state.password2State === 1) {
       return true;
     } else {
       if (this.state.passwordState !== 1) {
@@ -122,38 +112,37 @@ class RegisterPage extends React.Component {
   submit(e) {
     e.preventDefault();
     if (this.isValidated()) {
+      const { email, name, password } = this.state;
+      this.props.addUser({ email, name, password })
+      this.props.reset();
+    }
+  }
 
+  componentDidUpdate(prevProps) {
+    const { msgAdd, check } = this.props.auth;
+    if (check !== prevProps.auth.check) {
+      if (check === true) {
+        message.success(msgAdd)
+      }
+      else if (check === false) {
+        message.error(msgAdd)
+      }
     }
   }
   render() {
     const { classes } = this.props;
+    const { loading } = this.props.auth;
     return (
-      <div className={classes.container}>
-        <GridContainer justify="center">
-          <ItemGrid xs={10} sm={8} md={8}>
-            <RegularCard
-              cardTitle="Register"
-              titleAlign="center"
-              customCardTitleClasses={classes.cardTitle}
-              customCardClasses={classes.cardClasses}
-              content={
-                <GridContainer justify="center">
-                  <ItemGrid xs={10} sm={10} md={10}>
-                    <div className={classes.center}>
-                      <IconButton color="twitter">
-                        <i className="fab fa-twitter" />
-                      </IconButton>
-                      {` `}
-                      <IconButton color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </IconButton>
-                      {` `}
-                      <IconButton color="facebook">
-                        <i className="fab fa-facebook-f" />
-                      </IconButton>
-                      {` `}
-                      <h4 className={classes.socialTitle}>or be classical</h4>
-                    </div>
+      <Spin tip="Loading..." spinning={loading} style={{ marginTop: 120 }}>
+        <div className={classes.content}>
+          <div className={classes.container}>
+            <GridContainer justify="center">
+              <ItemGrid xs={10} sm={8} md={6}>
+                <IconCard
+                  icon={PersonAdd}
+                  iconColor="blue"
+                  title="Add User"
+                  content={
                     <form onSubmit={e => this.submit(e)}>
                       <CustomInput
                         success={this.state.nameState === 1}
@@ -175,6 +164,7 @@ class RegisterPage extends React.Component {
                         }}
                         inputProps={{
                           onChange: event => this.change(event, "email", "email"),
+                          type: "email",
                         }}
                       />
                       <CustomInput
@@ -202,46 +192,31 @@ class RegisterPage extends React.Component {
                           onChange: event => this.change(event, "password2", "c-password"),
                         }}
                       />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            tabIndex={-1}
-                            onClick={() => this.handleToggle(1)}
-                            checkedIcon={
-                              <Check className={classes.checkedIcon} />
-                            }
-                            icon={<Check className={classes.uncheckedIcon} />}
-                            classes={{
-                              checked: classes.checked
-                            }}
-                          />
-                        }
-                        label={
-                          <span>
-                            I agree to the{" "}
-                            <a href="#a">terms and conditions</a>.
-                          </span>
-                        }
-                      />
-                      <div className={classes.center}>
-                        <Button round color="primary" type="submit">
-                          Get started
-                        </Button>
-                      </div>
+                      <Button color="info" right type="submit" style={{ marginTop: 20 }}>
+                        Add
+										</Button>
                     </form>
-                  </ItemGrid>
-                </GridContainer>
-              }
-            />
-          </ItemGrid>
-        </GridContainer>
-      </div>
+                  }
+                />
+              </ItemGrid>
+            </GridContainer>
+          </div>
+        </div>
+      </Spin>
     );
   }
+
 }
 
 RegisterPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default withStyles(registerPageStyle)(RegisterPage);
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, { addUser, reset })(withStyles(registerPageStyle)(RegisterPage));

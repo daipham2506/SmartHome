@@ -4,8 +4,21 @@ const config = require("config")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
 
-User = require('../../models/User')
 
+User = require('../../models/User')
+const auth = require('../../middleware/auth')
+
+// @route   GET api/auth
+// @Access  Public
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password')
+    res.json(user)
+  } catch (err) {
+    console.log((err.message));
+    res.status(500).send('Server error');
+  }
+})
 
 // @route   POST api/auth
 // @Desc    Authentication user & get token
@@ -17,7 +30,7 @@ router.post('/', async (req, res) => {
     let user = await User.findOne({ email })
     if (!user) {
       return res.status(400).json({
-        msg: 'Account does not exist'
+        msg: 'Account does not exist!'
       })
     }
 
@@ -32,9 +45,7 @@ router.post('/', async (req, res) => {
     //return jsonwebtoken
     const payload = {
       user: {
-        id: user.id,
-        name: user.name,
-        avatar: user.avatar
+        id: user.id
       }
     }
 

@@ -20,7 +20,9 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
 
-import avatar from "assets/img/faces/avatar-boy.png";
+// import avatar from "assets/img/faces/avatar-boy.png";
+import { connect } from "react-redux";
+import { logout } from '../../appRedux/actions/auth'
 
 var ps;
 
@@ -134,7 +136,11 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
+          {this.props.user ?
+            <img src={'http:' + this.props.user.avatar} className={classes.avatarImg} alt="..." />
+            :
+            ''
+          }
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -144,7 +150,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={"Pham Tan Dai"}
+                primary={this.props.user ? this.props.user.name : ''}
                 secondary={
                   <b
                     className={
@@ -194,6 +200,7 @@ class Sidebar extends React.Component {
                 </ListItem>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
+                    onClick={() => this.props.logout()}
                     to="/user/login-page"
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
@@ -323,6 +330,7 @@ class Sidebar extends React.Component {
               </ListItem>
             );
           }
+          // collapse false
           const navLinkClasses =
             classes.itemLink +
             " " +
@@ -345,18 +353,53 @@ class Sidebar extends React.Component {
             cx({
               [classes.itemIconRTL]: rtlActive
             });
+
+          if (prop.name === 'Add User' && this.props.user) {
+            if (this.props.user.isAdmin) {
+              return (
+                <ListItem key={key} className={classes.item}>
+                  <NavLink to={prop.path} className={navLinkClasses}>
+                    <ListItemIcon className={itemIcon}>
+                      <prop.icon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={prop.name}
+                      disableTypography={true}
+                      className={itemText}
+                    />
+                  </NavLink>
+                </ListItem>
+              );
+            } else {
+              return ''
+            }
+          }
           return (
             <ListItem key={key} className={classes.item}>
-              <NavLink to={prop.path} className={navLinkClasses}>
-                <ListItemIcon className={itemIcon}>
-                  <prop.icon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={prop.name}
-                  disableTypography={true}
-                  className={itemText}
-                />
-              </NavLink>
+              {prop.name === 'Logout' ?
+                <NavLink to={prop.path} className={navLinkClasses}
+                  onClick={() => this.props.logout()}
+                >
+                  <ListItemIcon className={itemIcon}>
+                    <prop.icon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={prop.name}
+                    disableTypography={true}
+                    className={itemText}
+                  />
+                </NavLink> :
+                <NavLink to={prop.path} className={navLinkClasses}>
+                  <ListItemIcon className={itemIcon}>
+                    <prop.icon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={prop.name}
+                    disableTypography={true}
+                    className={itemText}
+                  />
+                </NavLink>
+              }
             </ListItem>
           );
         })}
@@ -387,12 +430,12 @@ class Sidebar extends React.Component {
       });
     var brand = (
       <div className={logoClasses}>
-        <a href="/dashboard" className={logoMini}>
+        <span className={logoMini}>
           <img src={logo} alt="logo" className={classes.img} />
-        </a>
-        <a href="/dashboard" className={logoNormal}>
+        </span>
+        <span className={logoNormal}>
           {logoText}
-        </a>
+        </span>
       </div>
     );
     const drawerPaper =
@@ -487,4 +530,10 @@ Sidebar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps, { logout })(withStyles(sidebarStyle)(Sidebar));

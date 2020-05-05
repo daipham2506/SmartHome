@@ -16,7 +16,7 @@ import pagesRoutes from "routes/pages.jsx";
 
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 
-import bgImage from "assets/img/register.jpeg";
+import bgImage from "assets/img/card-3.jpeg";
 
 // var ps;
 

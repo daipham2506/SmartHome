@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 
 // Define Route
 app.use('/api/users', require('./routes/api/users'))
-app.use('/api/login', require('./routes/api/login'))
+app.use('/api/auth', require('./routes/api/auth'))
 
 
 const PORT = process.env.PORT || 5000

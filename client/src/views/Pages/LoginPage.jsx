@@ -1,15 +1,15 @@
 import React from "react";
+import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-
 // material-ui components
 import withStyles from "material-ui/styles/withStyles";
 import InputAdornment from "material-ui/Input/InputAdornment";
-
+import { Redirect } from "react-router-dom";
 // material-ui-icons
 import Email from "material-ui-icons/Email";
 import LockOutline from "material-ui-icons/LockOutline";
 // antd
-import { Alert } from 'antd';
+import { Alert, Spin } from 'antd';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -20,13 +20,16 @@ import Button from "components/CustomButtons/Button.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
+import { verifyEmail } from '../../utils/validation'
+
+import { login } from '../../appRedux/actions/auth'
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      visibleAlert: false,
       email: "",
       emailState: "",
       password: "",
@@ -39,22 +42,12 @@ class LoginPage extends React.Component {
       this.setState({ cardAnimaton: "" });
     }, 500);
   }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return emailRex.test(value);
-  }
-  // function that returns true if value at least 6 characters, including lowercase, UPPERCASE and number, false otherwise
-  verifyPassword(value) {
-    var regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$/;
-    return regex.test(value);
-  }
 
   change(event, stateName, type) {
     let check;
     switch (type) {
       case "email":
-        check = this.verifyEmail(event.target.value) ? 1 : 0;
+        check = verifyEmail(event.target.value) ? 1 : 0;
         this.setState({ [stateName + "State"]: check });
         break;
       case "password":
@@ -83,16 +76,19 @@ class LoginPage extends React.Component {
     e.preventDefault();
     const { email, password } = this.state;
     if (this.isValidated()) {
-      if (email === 'daipham2506@gmail.com' && password === 'Dai123') {
-        window.location = '/dashboard';
-      } else {
-        this.setState({ visibleAlert: true });
-      }
+      this.props.login({ email, password })
     }
+
   }
   render() {
     const { classes } = this.props;
+    const { msg, isAuthenticated } = this.props.auth;
+    if (isAuthenticated) {
+      // this.props.history.push("/dashboard")
+      return <Redirect to='/dashboard' />
+    }
     return (
+
       <div className={classes.content}>
         <div className={classes.container}>
           <GridContainer justify="center">
@@ -105,9 +101,11 @@ class LoginPage extends React.Component {
                   cardSubtitle="Or Be Classical"
                   footerAlign="center"
                   footer={
-                    <Button style={{ marginTop: 50 }} round color="info" type="submit">
-                      Let's Go
-                    </Button>
+                    <Spin spinning={this.props.auth.loading} >
+                      <Button style={{ marginTop: 50 }} round color="info" type="submit">
+                        Let's Go
+                      </Button>
+                    </Spin>
                   }
                   socials={[
                     "fab fa-facebook-square",
@@ -127,9 +125,9 @@ class LoginPage extends React.Component {
                   })}
                   content={
                     <div>
-                      {this.state.visibleAlert &&
+                      {msg !== undefined &&
                         <Alert style={{ marginBottom: 20 }}
-                          message="Email or Password not correct!" type="error" showIcon
+                          message={msg} type="error" showIcon
                         />
                       }
 
@@ -182,12 +180,21 @@ class LoginPage extends React.Component {
           </GridContainer>
         </div>
       </div>
+
     );
   }
 }
 
 LoginPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default withStyles(loginPageStyle)(LoginPage);
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, { login })(withStyles(loginPageStyle)(LoginPage));
