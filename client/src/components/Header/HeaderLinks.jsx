@@ -16,7 +16,7 @@ import Hidden from "material-ui/Hidden";
 // material-ui-icons
 // import Person from "material-ui-icons/Person";
 import Notifications from "material-ui-icons/Notifications";
-import Dashboard from "material-ui-icons/Dashboard";
+// import Dashboard from "material-ui-icons/Dashboard";
 import Search from "material-ui-icons/Search";
 
 // core components
@@ -80,7 +80,7 @@ class HeaderLinks extends React.Component {
         >
           <Search className={classes.searchIcon} />
         </SearchButton>
-        <IconButton
+        {/* <IconButton
           color="inherit"
           aria-label="Dashboard"
           className={rtlActive ? classes.buttonLinkRTL:classes.buttonLink}
@@ -94,8 +94,8 @@ class HeaderLinks extends React.Component {
               {rtlActive ? "لوحة القيادة" : "Dashboard"}
             </p>
           </Hidden>
-        </IconButton>
-        <Manager className={managerClasses}>
+        </IconButton> */}
+        <Manager className={managerClasses} style={{marginRight:20}}>
           <Target>
             <IconButton
               color="inherit"

@@ -123,6 +123,10 @@ class RegisterPage extends React.Component {
     if (check !== prevProps.auth.check) {
       if (check === true) {
         message.success(msgAdd)
+        // redirect to dashboard
+        setTimeout(()=>{
+          this.props.history.push("/dashboard")
+        },1500)
       }
       else if (check === false) {
         message.error(msgAdd)
