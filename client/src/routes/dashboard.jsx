@@ -15,6 +15,7 @@ import ExtendedTables from "views/Tables/ExtendedTables.jsx";
 import ReactTables from "views/Tables/ReactTables.jsx";
 import LoginPage from "../views/Pages/LoginPage";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
+import TurnOnLight from "../views/TurnOnLight/TurnOnLight"
 
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
@@ -23,6 +24,7 @@ import ContentPaste from "material-ui-icons/ContentPaste";
 import GridOn from "material-ui-icons/GridOn";
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import PersonAdd from "material-ui-icons/PersonAdd";
+import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';
 
 
 var dashboardRoutes = [
@@ -32,111 +34,117 @@ var dashboardRoutes = [
     icon: DashboardIcon,
     component: Dashboard
   },
-  {
-    collapse: true,
-    path: "/components",
-    name: "Components",
-    state: "openComponents",
-    icon: Apps,
-    views: [
-      {
-        path: "/components/buttons",
-        name: "Buttons",
-        mini: "B",
-        component: Buttons
-      },
-      {
-        path: "/components/grid-system",
-        name: "Grid System",
-        mini: "GS",
-        component: GridSystem
-      },
-      {
-        path: "/components/panels",
-        name: "Panels",
-        mini: "P",
-        component: Panels
-      },
-      {
-        path: "/components/sweet-alert",
-        name: "Sweet Alert",
-        mini: "SA",
-        component: SweetAlert
-      },
-      {
-        path: "/components/notifications",
-        name: "Notifications",
-        mini: "N",
-        component: Notifications
-      },
-      { path: "/components/icons", name: "Icons", mini: "I", component: Icons },
-      {
-        path: "/components/typography",
-        name: "Typography",
-        mini: "T",
-        component: Typography
-      }
-    ]
-  },
-  {
-    collapse: true,
-    path: "/forms",
-    name: "Forms",
-    state: "openForms",
-    icon: ContentPaste,
-    views: [
-      {
-        path: "/forms/regular-forms",
-        name: "Regular Forms",
-        mini: "RF",
-        component: RegularForms
-      },
-      {
-        path: "/forms/extended-forms",
-        name: "Extended Forms",
-        mini: "EF",
-        component: ExtendedForms
-      },
-      {
-        path: "/forms/validation-forms",
-        name: "Validation Forms",
-        mini: "VF",
-        component: ValidationForms
-      },
-      {
-        path: "/forms/wizard",
-        name: "Wizard",
-        mini: "W",
-        component: Wizard
-      }
-    ]
-  },
-  {
-    collapse: true,
-    path: "/tables",
-    name: "Tables",
-    state: "openTables",
-    icon: GridOn,
-    views: [
-      {
-        path: "/tables/regular-tables",
-        name: "Regular Tables",
-        mini: "RT",
-        component: RegularTables
-      },
-      {
-        path: "/tables/extended-tables",
-        name: "Extended Tables",
-        mini: "ET",
-        component: ExtendedTables
-      },
-      {
-        path: "/tables/react-tables",
-        name: "React Tables",
-        mini: "RT",
-        component: ReactTables
-      }
-    ]
+  // {
+  //   collapse: true,
+  //   path: "/components",
+  //   name: "Components",
+  //   state: "openComponents",
+  //   icon: Apps,
+  //   views: [
+  //     {
+  //       path: "/components/buttons",
+  //       name: "Buttons",
+  //       mini: "B",
+  //       component: Buttons
+  //     },
+  //     {
+  //       path: "/components/grid-system",
+  //       name: "Grid System",
+  //       mini: "GS",
+  //       component: GridSystem
+  //     },
+  //     {
+  //       path: "/components/panels",
+  //       name: "Panels",
+  //       mini: "P",
+  //       component: Panels
+  //     },
+  //     {
+  //       path: "/components/sweet-alert",
+  //       name: "Sweet Alert",
+  //       mini: "SA",
+  //       component: SweetAlert
+  //     },
+  //     {
+  //       path: "/components/notifications",
+  //       name: "Notifications",
+  //       mini: "N",
+  //       component: Notifications
+  //     },
+  //     { path: "/components/icons", name: "Icons", mini: "I", component: Icons },
+  //     {
+  //       path: "/components/typography",
+  //       name: "Typography",
+  //       mini: "T",
+  //       component: Typography
+  //     }
+  //   ]
+  // },
+  // {
+  //   collapse: true,
+  //   path: "/forms",
+  //   name: "Forms",
+  //   state: "openForms",
+  //   icon: ContentPaste,
+  //   views: [
+  //     {
+  //       path: "/forms/regular-forms",
+  //       name: "Regular Forms",
+  //       mini: "RF",
+  //       component: RegularForms
+  //     },
+  //     {
+  //       path: "/forms/extended-forms",
+  //       name: "Extended Forms",
+  //       mini: "EF",
+  //       component: ExtendedForms
+  //     },
+  //     {
+  //       path: "/forms/validation-forms",
+  //       name: "Validation Forms",
+  //       mini: "VF",
+  //       component: ValidationForms
+  //     },
+  //     {
+  //       path: "/forms/wizard",
+  //       name: "Wizard",
+  //       mini: "W",
+  //       component: Wizard
+  //     }
+  //   ]
+  // },
+  // {
+  //   collapse: true,
+  //   path: "/tables",
+  //   name: "Tables",
+  //   state: "openTables",
+  //   icon: GridOn,
+  //   views: [
+  //     {
+  //       path: "/tables/regular-tables",
+  //       name: "Regular Tables",
+  //       mini: "RT",
+  //       component: RegularTables
+  //     },
+  //     {
+  //       path: "/tables/extended-tables",
+  //       name: "Extended Tables",
+  //       mini: "ET",
+  //       component: ExtendedTables
+  //     },
+  //     {
+  //       path: "/tables/react-tables",
+  //       name: "React Tables",
+  //       mini: "RT",
+  //       component: ReactTables
+  //     }
+  //   ]
+  // },
+  { 
+    path: "/turn-on-light", 
+    name: "Turn On/Off the light", 
+    icon: WbIncandescentIcon, 
+    component: TurnOnLight 
   },
   { 
     path: "/add-user", 
