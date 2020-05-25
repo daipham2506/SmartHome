@@ -2,7 +2,7 @@ import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from 'react-redux'
+
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -24,12 +24,18 @@ import logo from "assets/img/logo-white.svg";
 import ResetPassword from "../views/Pages/ResetPassword";
 import UserProfile from "views/Pages/UserProfile.jsx";
 
+import NotAuthorize from "../views/ErrorPages/NotAuthorize.jsx"
+import TokenExpire from "../views/ErrorPages/TokenExpire.jsx"
+
+import getPayloadToken from "../utils/getPayloadToken"
+
 var ps;
 
 class Dashboard extends React.Component {
   state = {
     mobileOpen: false,
-    miniActive: false
+    miniActive: false,
+    user: null
   };
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
@@ -37,26 +43,18 @@ class Dashboard extends React.Component {
   getRoute() {
     return this.props.location.pathname !== "/maps/full-screen-maps";
   }
-  switchRoutes = (
-    <Switch>
-      <Route path="/reset-password" component={ResetPassword} />
-      <Route path="/user-profile" component={UserProfile} />
-      {dashboardRoutes.map((prop, key) => {
-        if (!this.props.isAuthenticated) {
-          return <Redirect from={prop.path} to='/user/login-page' key={key} />;
-        }
-        if (prop.redirect)
-          return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
-        if (prop.collapse)
-          return prop.views.map((prop, key) => {
-            return (
-              <Route path={prop.path} component={prop.component} key={key} />
-            );
-          });
-        return <Route path={prop.path} component={prop.component} key={key} />;
-      })}
-    </Switch>
-  );
+
+  componentWillMount() {
+    const payload = getPayloadToken();
+    if (payload) {
+      this.setState({
+        user: payload
+      });
+    } else {
+      this.props.history.push('/ErrorPages/401')
+    }
+  }
+
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       // eslint-disable-next-line
@@ -80,6 +78,35 @@ class Dashboard extends React.Component {
     this.setState({ miniActive: !this.state.miniActive });
   }
   render() {
+    var switchRoutes = (
+      <Switch>
+        <Route path="/reset-password" component={ResetPassword} />
+        <Route path="/user-profile" component={UserProfile} />
+        <Route path="/ErrorPages/403" component={NotAuthorize} />
+        <Route path="/ErrorPages/401" component={TokenExpire} />
+        {dashboardRoutes.map((prop, key) => {
+          if (!localStorage.token) {
+            return <Redirect from={prop.path} to='/user/login-page' key={key} />;
+          }
+          if (prop.name === "Add User") {
+            if (this.state.user) {
+              if (!this.state.user.isAdmin) {
+                return <Redirect from={prop.path} to="/ErrorPages/403" />;
+              }
+            }
+          }
+          if (prop.redirect)
+            return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+          if (prop.collapse)
+            return prop.views.map((prop, key) => {
+              return (
+                <Route path={prop.path} component={prop.component} key={key} />
+              );
+            });
+          return <Route path={prop.path} component={prop.component} key={key} />;
+        })}
+      </Switch>
+    );
     const { classes, ...rest } = this.props;
     const mainPanel =
       classes.mainPanel +
@@ -114,10 +141,10 @@ class Dashboard extends React.Component {
           {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{this.switchRoutes}</div>
+              <div className={classes.container}>{switchRoutes}</div>
             </div>
           ) : (
-              <div className={classes.map}>{this.switchRoutes}</div>
+              <div className={classes.map}>{switchRoutes}</div>
             )}
           {this.getRoute() ? <Footer fluid /> : null}
         </div>
@@ -128,13 +155,7 @@ class Dashboard extends React.Component {
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired,
-  isAuthentiacated: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated
-  }
-}
 
-export default connect(mapStateToProps, null)(withStyles(appStyle)(Dashboard));
+export default withStyles(appStyle)(Dashboard);

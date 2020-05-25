@@ -45,14 +45,17 @@ router.post('/', async (req, res) => {
     //return jsonwebtoken
     const payload = {
       user: {
-        id: user.id
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        isAdmin: user.isAdmin
       }
     }
 
     jwt.sign(
       payload,
       config.get('jwtSecret'),
-      { expiresIn: 86400 },
+      { expiresIn: 3600 },
       (err, token) => {
         if (err) {
           throw err;

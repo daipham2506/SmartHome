@@ -1,27 +1,27 @@
 import Dashboard from "views/Dashboard/Dashboard.jsx";
-import Buttons from "views/Components/Buttons.jsx";
-import GridSystem from "views/Components/GridSystem.jsx";
-import Panels from "views/Components/Panels.jsx";
-import SweetAlert from "views/Components/SweetAlert.jsx";
-import Notifications from "views/Components/Notifications.jsx";
-import Icons from "views/Components/Icons.jsx";
-import Typography from "views/Components/Typography.jsx";
-import RegularForms from "views/Forms/RegularForms.jsx";
-import ExtendedForms from "views/Forms/ExtendedForms.jsx";
-import ValidationForms from "views/Forms/ValidationForms.jsx";
-import Wizard from "views/Forms/Wizard.jsx";
-import RegularTables from "views/Tables/RegularTables.jsx";
-import ExtendedTables from "views/Tables/ExtendedTables.jsx";
-import ReactTables from "views/Tables/ReactTables.jsx";
+// import Buttons from "views/Components/Buttons.jsx";
+// import GridSystem from "views/Components/GridSystem.jsx";
+// import Panels from "views/Components/Panels.jsx";
+// import SweetAlert from "views/Components/SweetAlert.jsx";
+// import Notifications from "views/Components/Notifications.jsx";
+// import Icons from "views/Components/Icons.jsx";
+// import Typography from "views/Components/Typography.jsx";
+// import RegularForms from "views/Forms/RegularForms.jsx";
+// import ExtendedForms from "views/Forms/ExtendedForms.jsx";
+// import ValidationForms from "views/Forms/ValidationForms.jsx";
+// import Wizard from "views/Forms/Wizard.jsx";
+// import RegularTables from "views/Tables/RegularTables.jsx";
+// import ExtendedTables from "views/Tables/ExtendedTables.jsx";
+// import ReactTables from "views/Tables/ReactTables.jsx";
 import LoginPage from "../views/Pages/LoginPage";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import TurnOnLight from "../views/TurnOnLight/TurnOnLight"
 
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
-import Apps from "material-ui-icons/Apps";
-import ContentPaste from "material-ui-icons/ContentPaste";
-import GridOn from "material-ui-icons/GridOn";
+// import Apps from "material-ui-icons/Apps";
+// import ContentPaste from "material-ui-icons/ContentPaste";
+// import GridOn from "material-ui-icons/GridOn";
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import PersonAdd from "material-ui-icons/PersonAdd";
 import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';

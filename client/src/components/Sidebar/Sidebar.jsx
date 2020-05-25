@@ -24,6 +24,8 @@ import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sid
 import { connect } from "react-redux";
 import { logout } from '../../appRedux/actions/auth'
 
+import getPayloadToken from "../../utils/getPayloadToken"
+
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -66,10 +68,24 @@ class Sidebar extends React.Component {
       openTables: this.activeRoute("/tables"),
       openMaps: this.activeRoute("/maps"),
       openPages: this.activeRoute("-page"),
-      miniActive: true
+      miniActive: true,
+      user: {}
     };
     this.activeRoute.bind(this);
   }
+
+  componentWillMount() {
+    const payload = getPayloadToken();
+    if (payload) {
+      this.setState({
+        user: payload
+      });
+    } else {
+      localStorage.removeItem('token');
+      this.props.history.push('/ErrorPages/401')
+    }
+  }
+
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? true : false;
@@ -133,14 +149,11 @@ class Sidebar extends React.Component {
       cx({
         [classes.photoRTL]: rtlActive
       });
+      
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          {this.props.user ?
-            <img src={'http:' + this.props.user.avatar} className={classes.avatarImg} alt="..." />
-            :
-            ''
-          }
+          <img src={'http:' + this.state.user.avatar} className={classes.avatarImg} alt="" />
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -150,7 +163,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={this.props.user ? this.props.user.name : ''}
+                primary={this.state.user ? this.state.user.name : ''}
                 secondary={
                   <b
                     className={
@@ -354,26 +367,26 @@ class Sidebar extends React.Component {
               [classes.itemIconRTL]: rtlActive
             });
 
-          if (prop.name === 'Add User' && this.props.user) {
-            if (this.props.user.isAdmin) {
-              return (
-                <ListItem key={key} className={classes.item}>
-                  <NavLink to={prop.path} className={navLinkClasses}>
-                    <ListItemIcon className={itemIcon}>
-                      <prop.icon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={prop.name}
-                      disableTypography={true}
-                      className={itemText}
-                    />
-                  </NavLink>
-                </ListItem>
-              );
-            } else {
-              return ''
-            }
-          }
+          // if (prop.name === 'Add User' && this.state.user.isAdmin) {
+          //   if (this.state.user.isAdmin) {
+          //     return (
+          //       <ListItem key={key} className={classes.item}>
+          //         <NavLink to={prop.path} className={navLinkClasses}>
+          //           <ListItemIcon className={itemIcon}>
+          //             <prop.icon />
+          //           </ListItemIcon>
+          //           <ListItemText
+          //             primary={prop.name}
+          //             disableTypography={true}
+          //             className={itemText}
+          //           />
+          //         </NavLink>
+          //       </ListItem>
+          //     );
+          //   } else {
+          //     return ''
+          //   }
+          // }
           return (
             <ListItem key={key} className={classes.item}>
               {prop.name === 'Logout' ?
@@ -530,10 +543,4 @@ Sidebar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object)
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  }
-}
-
-export default connect(mapStateToProps, { logout })(withStyles(sidebarStyle)(Sidebar));
+export default connect(null, { logout })(withStyles(sidebarStyle)(Sidebar));
