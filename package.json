@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "client": "npm start --prefix client",
-    "dev": "(cd client && npm start) & npm run server"
+    "client": "cd client && yarn start-js",
+    "start": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "repository": {
     "type": "git",
