@@ -7,7 +7,9 @@ import {
   ADD_USER_FAIL,
   AUTH_ERROR,
   USER_LOADED,
-  RESET
+  RESET,
+  RESET_PASS_FAIL,
+  RESET_PASS_SUCCESS
 } from '../ActionType'
 
 import callApi from '../../utils/callApi'
@@ -71,6 +73,27 @@ export const addUser = (newUser) => async dispatch => {
 
     dispatch({
       type: ADD_USER_FAIL,
+      payload: error
+    })
+  }
+}
+
+// Reset password
+export const resetPass = (pass) => async dispatch => {
+  dispatch({ type: LOADING })
+  try {
+    const res = await callApi('/api/auth/reset-pass', 'POST', pass)
+
+    dispatch({
+      type: RESET_PASS_SUCCESS,
+      payload: res.data
+    })
+
+  } catch (err) {
+    const error = err.response.data.msg;
+
+    dispatch({
+      type: RESET_PASS_FAIL,
       payload: error
     })
   }

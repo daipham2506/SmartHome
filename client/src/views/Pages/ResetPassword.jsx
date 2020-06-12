@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 
 // material-ui components
@@ -17,6 +18,10 @@ import IconCard from "components/Cards/IconCard.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
+import getPayloadToken from "../../utils/getPayloadToken"
+import { resetPass, reset } from '../../appRedux/actions/auth'
+import { message, Spin } from "antd";
+
 class ResetPassword extends React.Component {
 	constructor(props) {
 		super(props);
@@ -27,6 +32,7 @@ class ResetPassword extends React.Component {
 			passwordState: "",
 			password2: "",
 			password2State: "",
+			user: {}
 		};
 	}
 	// function that returns true if value at least 6 characters, including lowercase, UPPERCASE and number, false otherwise
@@ -73,7 +79,7 @@ class ResetPassword extends React.Component {
 		this.setState({ [stateName]: event.target.value });
 	}
 	isValidated() {
-		if (this.state.passwordState === "success" && this.state.passwordState === "success" && this.state.oldPass ==="success") {
+		if (this.state.passwordState === "success" && this.state.passwordState === "success" && this.state.oldPassState === "success") {
 			return true;
 		} else {
 			if (this.state.oldPassState !== "success") {
@@ -88,10 +94,42 @@ class ResetPassword extends React.Component {
 		}
 		return false;
 	}
+
+	componentWillMount() {
+		const payload = getPayloadToken();
+		if (payload) {
+			this.setState({
+				user: payload
+			});
+		} else {
+			localStorage.removeItem('token');
+			this.props.history.push('/ErrorPages/401')
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.check !== this.props.check) {
+			if (this.props.check) {
+				message.success(this.props.msgReset, 3);
+				setTimeout(()=>{
+					localStorage.removeItem('token');
+					window.location.reload();
+				}, 1000)
+			} else if (this.props.check === false) {
+				message.error(this.props.msgReset, 3);
+			}
+		}
+	}
 	submit(e) {
 		e.preventDefault();
 		if (this.isValidated()) {
-
+			const { user, oldPass, password } = this.state;
+			this.props.resetPass({
+				email: user.email,
+				oldPass: oldPass,
+				newPass: password
+			})
+			this.props.reset();
 		}
 	}
 	render() {
@@ -101,57 +139,59 @@ class ResetPassword extends React.Component {
 				<div className={classes.container}>
 					<GridContainer justify="center">
 						<ItemGrid xs={10} sm={8} md={6}>
-							<IconCard
-								icon={Edit}
-								iconColor="rose"
-								title="Reset Password"
-								content={
-									<form onSubmit = {e=>this.submit(e)}>
-										<CustomInput
-											success={this.state.oldPassState === "success"}
-											error={this.state.oldPassState === "error"}
-											labelText="Old Password *"
-											formControlProps={{
-												fullWidth: true
-											}}
-											inputProps={{
-												onChange: event => this.change(event, "oldPass", "length"),
-												type: "password"
-											}}
-										/>
-										<CustomInput
-											success={this.state.passwordState === "success"}
-											error={this.state.passwordState === "error"}
-											labelText="New Password *"
-											formControlProps={{
-												fullWidth: true
-											}}
-											inputProps={{
-												onChange: event => this.change(event, "password", "password"),
-												type: "password"
-											}}
-										/>
-										<div className={classes.formCategory}>
-											<small> New password must at least 6 characters. Including lowercase, UPPERCASE and number. </small>
-										</div>
-										
-										<CustomInput
-											success={ this.state.password2State === "success"}
-											error={this.state.password2State === "error"}
-											labelText="Retype New Password *"
-											formControlProps={{fullWidth: true}}
-											inputProps={{
-												onChange: event => this.change(event,"password2","c-password"),
-												type: "password"
-											}}
-										/>
+							<Spin spinning={this.props.loading} tip="Loading...">
+								<IconCard
+									icon={Edit}
+									iconColor="rose"
+									title="Reset Password"
+									content={
+										<form onSubmit={e => this.submit(e)}>
+											<CustomInput
+												success={this.state.oldPassState === "success"}
+												error={this.state.oldPassState === "error"}
+												labelText="Old Password *"
+												formControlProps={{
+													fullWidth: true
+												}}
+												inputProps={{
+													onChange: event => this.change(event, "oldPass", "length"),
+													type: "password"
+												}}
+											/>
+											<CustomInput
+												success={this.state.passwordState === "success"}
+												error={this.state.passwordState === "error"}
+												labelText="New Password *"
+												formControlProps={{
+													fullWidth: true
+												}}
+												inputProps={{
+													onChange: event => this.change(event, "password", "password"),
+													type: "password"
+												}}
+											/>
+											<div className={classes.formCategory}>
+												<small> New password must at least 6 characters. Including lowercase, UPPERCASE and number. </small>
+											</div>
 
-										<Button color="rose" right type="submit">
-											Reset
+											<CustomInput
+												success={this.state.password2State === "success"}
+												error={this.state.password2State === "error"}
+												labelText="Retype New Password *"
+												formControlProps={{ fullWidth: true }}
+												inputProps={{
+													onChange: event => this.change(event, "password2", "c-password"),
+													type: "password"
+												}}
+											/>
+
+											<Button color="rose" right type="submit">
+												Reset
 										</Button>
-									</form>
-								}
-							/>
+										</form>
+									}
+								/>
+							</Spin>
 						</ItemGrid>
 					</GridContainer>
 				</div>
@@ -164,4 +204,11 @@ ResetPassword.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 
-export default withStyles(loginPageStyle)(ResetPassword);
+const mapStateToProps = state => {
+	return {
+		check: state.auth.check,
+		loading: state.auth.loading,
+		msgReset: state.auth.msgReset
+	}
+}
+export default connect(mapStateToProps, { resetPass, reset })(withStyles(loginPageStyle)(ResetPassword));

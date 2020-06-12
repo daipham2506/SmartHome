@@ -7,7 +7,9 @@ import {
   USER_LOADED,
   ADD_USER_SUCCESS,
   ADD_USER_FAIL,
-  RESET
+  RESET,
+  RESET_PASS_SUCCESS,
+  RESET_PASS_FAIL
 } from '../ActionType'
 
 const initState = {
@@ -17,6 +19,7 @@ const initState = {
   user: null,
   msg: undefined,
   msgAdd: undefined,
+  msgReset: undefined,
   check: undefined
 }
 
@@ -82,6 +85,22 @@ export default (state = initState, action) => {
       return {
         ...state,
         check: undefined
+      }
+
+    case RESET_PASS_SUCCESS:
+      return {
+        ...state,
+        msgReset: payload,
+        check: true,
+        loading: false
+      }
+
+    case RESET_PASS_FAIL:
+      return {
+        ...state,
+        msgReset: payload,
+        check: false,
+        loading: false
       }
     default:
       return state
