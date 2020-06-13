@@ -1,5 +1,5 @@
+// AUTH
 export const LOADING = 'LOADING'
-
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 
@@ -15,3 +15,9 @@ export const RESET_PASS_FAIL = 'RESET_PASS_FAIL'
 export const LOGOUT = 'LOGOUT'
 
 export const RESET = 'RESET'
+
+// SETTING
+export const LOADING_SETTING = 'LOADING_SETTING'
+export const RESET_SETTING = 'RESET_SETTING'
+export const SETTING_LIGHT_SUCCESS = 'SETTING_LIGHT_SUCCESS'
+export const SETTING_LIGHT_FAIL = 'SETTING_LIGHT_FAIL'

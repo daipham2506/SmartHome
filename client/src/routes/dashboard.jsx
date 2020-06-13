@@ -15,7 +15,8 @@ import Dashboard from "views/Dashboard/Dashboard.jsx";
 // import ReactTables from "views/Tables/ReactTables.jsx";
 import LoginPage from "../views/Pages/LoginPage";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
-import TurnOnLight from "../views/TurnOnLight/TurnOnLight"
+import Setting from "../views/Setting/Setting"
+import Room from "../views/Room/Room"
 
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
@@ -24,7 +25,9 @@ import DashboardIcon from "material-ui-icons/Dashboard";
 // import GridOn from "material-ui-icons/GridOn";
 import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import PersonAdd from "material-ui-icons/PersonAdd";
-import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';
+// import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';
+import SettingsIcon from 'material-ui-icons/Settings';
+import HomeIcon from 'material-ui-icons/Home';
 
 
 var dashboardRoutes = [
@@ -34,6 +37,31 @@ var dashboardRoutes = [
     icon: DashboardIcon,
     component: Dashboard
   },
+  { 
+    path: "/setting", 
+    name: "Setting", 
+    icon: SettingsIcon, 
+    component: Setting 
+  },
+  { 
+    path: "/rooms", 
+    name: "Rooms", 
+    icon: HomeIcon, 
+    component: Room 
+  },
+  { 
+    path: "/add-user", 
+    name: "Add User", 
+    icon: PersonAdd, 
+    component: RegisterPage 
+  },
+  { 
+    path: "/user/login-page", 
+    name: "Logout", 
+    icon: ExitToAppIcon, 
+    component: LoginPage 
+  },
+  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
   // {
   //   collapse: true,
   //   path: "/components",
@@ -140,24 +168,6 @@ var dashboardRoutes = [
   //     }
   //   ]
   // },
-  { 
-    path: "/turn-on-light", 
-    name: "Turn On/Off the light", 
-    icon: WbIncandescentIcon, 
-    component: TurnOnLight 
-  },
-  { 
-    path: "/add-user", 
-    name: "Add User", 
-    icon: PersonAdd, 
-    component: RegisterPage 
-  },
-  { 
-    path: "/user/login-page", 
-    name: "Logout", 
-    icon: ExitToAppIcon, 
-    component: LoginPage 
-  },
-  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
+  
 ];
 export default dashboardRoutes;
