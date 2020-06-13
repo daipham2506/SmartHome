@@ -3,11 +3,7 @@ autoIncrement = require('mongoose-auto-increment');
 
 autoIncrement.initialize(mongoose.connection);
 
-const ControlSchema = new mongoose.Schema({
-	userId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	},
+const ValueSensorSchema = new mongoose.Schema({
 	deviceId: {
 		type: String,
 		ref: 'Device',
@@ -16,16 +12,12 @@ const ControlSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	isTurnOn: {
-		type: Boolean,
-		required: true
-	},
 	time: {
 		type: Date,
 		default: Date.now,
 	}
 })
 
-ControlSchema.plugin(autoIncrement.plugin, "Control")
+ValueSensorSchema.plugin(autoIncrement.plugin, "ValueSensor")
 
-module.exports = Control = mongoose.model("Control", ControlSchema)
+module.exports = ValueSensor = mongoose.model("ValueSensor", ValueSensorSchema)

@@ -10,6 +10,9 @@ connectDB()
 // Init Middleware
 app.use(express.json({ extended: false }))
 
+// import iot
+const { subcribeLightSensor } = require('./iot/light')
+
 app.get('/', (req, res) => {
   return res.send('API running')
 })
@@ -19,6 +22,7 @@ app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/setting', require('./routes/api/setting'))
 
+subcribeLightSensor();
 
 const PORT = process.env.PORT || 5000
 

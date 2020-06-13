@@ -26,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10",
     "mongoose-auto-increment": "^5.0.1",
+    "mqtt": "^4.1.0",
     "request": "^2.88.2"
   },
   "devDependencies": {

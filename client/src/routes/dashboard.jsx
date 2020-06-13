@@ -16,7 +16,7 @@ import Dashboard from "views/Dashboard/Dashboard.jsx";
 import LoginPage from "../views/Pages/LoginPage";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import Setting from "../views/Setting/Setting"
-import Room from "../views/Room/Room"
+import Control from "../views/Control/Control"
 
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
@@ -27,7 +27,7 @@ import ExitToAppIcon from 'material-ui-icons/ExitToApp';
 import PersonAdd from "material-ui-icons/PersonAdd";
 // import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';
 import SettingsIcon from 'material-ui-icons/Settings';
-import HomeIcon from 'material-ui-icons/Home';
+import SettingsRemoteIcon from 'material-ui-icons/SettingsRemote';
 
 
 var dashboardRoutes = [
@@ -44,10 +44,10 @@ var dashboardRoutes = [
     component: Setting 
   },
   { 
-    path: "/rooms", 
-    name: "Rooms", 
-    icon: HomeIcon, 
-    component: Room 
+    path: "/control", 
+    name: "Control", 
+    icon: SettingsRemoteIcon, 
+    component: Control 
   },
   { 
     path: "/add-user", 
