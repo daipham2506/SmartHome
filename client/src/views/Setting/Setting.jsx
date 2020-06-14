@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 
-import { Slider, Card, Button, message } from 'antd';
+import { Slider, Card, Button, message, Table, Tag, Spin } from 'antd';
 
 import getPayloadToken from "../../utils/getPayloadToken"
 
-import { lightSetting } from "../../appRedux/actions/setting"
+import { lightSensorSetting } from "../../appRedux/actions/setting"
 
 import callApi from "../../utils/callApi"
 
@@ -25,11 +25,12 @@ const marks = {
 };
 
 const Setting = props => {
-  const { check, msg } = props.setting;
+  const { check, msg, loading } = props.setting;
 
   const [user, setUser] = useState({})
-  const [lightVal, setLightVal] = useState(0)
-  const [lastLight, setLastLight] = useState(null);
+  const [lightSensorVal, setLightSensorVal] = useState(0)
+  const [lastVal, setLastVal] = useState(null);
+  const [allSetting, setAllSetting] = useState([])
 
   useEffect(() => {
     const payload = getPayloadToken();
@@ -39,51 +40,104 @@ const Setting = props => {
       localStorage.removeItem('token');
       props.history.push('/ErrorPages/401')
     }
-    //get last light setting
-    callApi('/api/setting/light/last').then((res) => {
-      setLightVal(res.data.value);
-      setLastLight(res.data.value);
+    //get last light sensor setting
+    callApi('/api/setting/light-sensor/last').then((res) => {
+      setLightSensorVal(res.data ? res.data.value : null);
+      setLastVal(res.data ? res.data.value : null);
     })
+    //get all light sensor setting
+    callApi('/api/setting/light-sensor/all').then(res => {
+      setAllSetting(res.data);
+    })
+
   }, [])
 
 
   useEffect(() => {
     if (check) {
       message.success(msg, 3);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000)
     } else if (check === false) {
       message.error(msg, 3);
     }
   }, [check])
 
   const handleSave = () => {
-    props.lightSetting({
-      type: "light",
-      value: lightVal
+    let currTime = new Date().toLocaleDateString('vi') + " " + new Date().toLocaleTimeString('vi', { hour12: false });
+    
+    props.lightSensorSetting({
+      type: "sensor",
+      value: lightSensorVal,
+      time: currTime
     });
   }
 
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: '_id',
+      key: '_id'
+    },
+    {
+      title: 'Value',
+      dataIndex: 'value',
+      key: 'value',
+      render: (value) => (
+        <a> {value}</a>
+      )
+    },
+    {
+      title: 'Type',
+      key: 'type',
+      dataIndex: 'type',
+      render: (type) => (
+        <Tag color="green" key={type}>
+          {type.toUpperCase()}
+        </Tag>
+      )
+    },
+    {
+      title: 'Created At',
+      key: 'time',
+      dataIndex: 'time'
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: () => (
+        <Button>Delete</Button>
+      )
+    },
+  ];
+
   return (
     <div>
-      <Card title="Range value for auto turn on the light"
-        extra={
-          <Button
-            type="primary"
-            disabled={!(user.isAdmin && lightVal !== lastLight)}
-            onClick={handleSave}
-          > Save
+      <Spin spinning={loading}>
+        <Card title="Range value for auto turn on the light"
+          extra={
+            <Button
+              type="primary"
+              disabled={!(user.isAdmin && lightSensorVal !== lastVal)}
+              onClick={handleSave}
+            > Save
           </Button>}
-      >
-        <Slider
-          min={0}
-          max={1023}
-          step={1}
-          marks={marks}
-          value={lightVal}
-          tooltipVisible
-          disabled={!user.isAdmin}
-          onChange={value => setLightVal(value)}
-        />
-      </Card>
+        >
+          <Slider
+            min={0}
+            max={1023}
+            step={1}
+            marks={marks}
+            value={lightSensorVal}
+            tooltipVisible
+            disabled={!user.isAdmin}
+            onChange={value => setLightSensorVal(value)}
+          />
+        </Card>
+        <h6 style={{ textAlign: "center", marginTop: 40 }}> <a>History Light Sensor Setting</a></h6>
+        <Table columns={columns} dataSource={allSetting} />
+      </Spin>
     </div>
   )
 }
@@ -93,4 +147,4 @@ const mapStateToProps = state => {
     setting: state.setting
   }
 }
-export default connect(mapStateToProps, { lightSetting })(Setting);
+export default connect(mapStateToProps, { lightSensorSetting })(Setting);

@@ -13,8 +13,8 @@ const ValueSensorSchema = new mongoose.Schema({
 		required: true
 	},
 	time: {
-		type: Date,
-		default: Date.now,
+		type: String,
+		required: true
 	}
 })
 

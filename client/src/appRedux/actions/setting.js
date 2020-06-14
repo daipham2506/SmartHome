@@ -8,13 +8,13 @@ import {
 import callApi from '../../utils/callApi'
 import { setAuthToken } from '../../utils/setAuthToken'
 
-export const lightSetting = data => async dispatch => {
+export const lightSensorSetting = data => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
   dispatch({ type: LOADING_SETTING });
   try {
-    const res = await callApi('/api/setting/light', 'POST', data);
+    const res = await callApi('/api/setting/light-sensor', 'POST', data);
 
     dispatch({
       type: SETTING_LIGHT_SUCCESS,

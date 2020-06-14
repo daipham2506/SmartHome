@@ -20,7 +20,8 @@ const subcribeLightSensor = () => {
       payload.forEach(item => {
         let valueSensor = new ValueSensor({
           deviceId: item.device_id,
-          value: Number(item.values[0])
+          value: Number(item.values[0]),
+          time: new Date().toLocaleDateString('vi') + " " + new Date().toLocaleTimeString('vi', { hour12: false })
         })
         valueSensor.save();
       });

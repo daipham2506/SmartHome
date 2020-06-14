@@ -13,8 +13,8 @@ const SettingSchema = new mongoose.Schema({
 		required: true
 	},
 	time: {
-		type: Date,
-		default: Date.now,
+		type: String,
+		require: true
 	}
 })
 
