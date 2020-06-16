@@ -65,12 +65,19 @@ const Setting = props => {
   }, [check])
 
   const handleSave = () => {
-    let currTime = new Date().toLocaleDateString('vi') + " " + new Date().toLocaleTimeString('vi', { hour12: false });
+    let today = new Date(); 
+    let dd = today.getDate(); 
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear(); 
+    if (dd < 10) { dd = '0' + dd } 
+    if (mm < 10) { mm = '0' + mm } 
+    let date = dd + '-' + mm + '-' + yyyy;
+    let dateTime = date + " " + new Date().toLocaleTimeString('vi', { hour12: false });
     
     props.lightSensorSetting({
       type: "sensor",
       value: lightSensorVal,
-      time: currTime
+      time: dateTime
     });
   }
 
