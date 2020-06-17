@@ -13,6 +13,9 @@ app.use(express.json({ extended: false }))
 // import iot
 const { subcribeLightSensor } = require('./iot/light')
 
+// import test 
+const { publishLightSensor } = require('./test/light')
+
 app.get('/', (req, res) => {
   return res.send('API running')
 })
@@ -21,8 +24,12 @@ app.get('/', (req, res) => {
 app.use('/api/users', require('./routes/api/users'))
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/setting', require('./routes/api/setting'))
+app.use('/api/control', require('./routes/api/control'))
+app.use('/api/sensor', require('./routes/api/sensor'))
 
-subcribeLightSensor();
+// publishLightSensor();
+
+// subcribeLightSensor();
 
 const PORT = process.env.PORT || 5000
 

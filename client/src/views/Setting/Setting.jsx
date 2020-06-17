@@ -142,7 +142,7 @@ const Setting = props => {
             onChange={value => setLightSensorVal(value)}
           />
         </Card>
-        <h6 style={{ textAlign: "center", marginTop: 40 }}> <a>History Light Sensor Setting</a></h6>
+        <h4 style={{ textAlign: "center", marginTop: 40 }}> <a>History Light Sensor Setting</a></h4>
         <Table columns={columns} dataSource={allSetting} />
       </Spin>
     </div>
