@@ -27,6 +27,8 @@ import UserProfile from "views/Pages/UserProfile.jsx";
 import NotAuthorize from "../views/ErrorPages/NotAuthorize.jsx"
 import TokenExpire from "../views/ErrorPages/TokenExpire.jsx"
 
+import Device from "../views/Control/Device.jsx"
+
 import getPayloadToken from "../utils/getPayloadToken"
 
 var ps;
@@ -84,6 +86,7 @@ class Dashboard extends React.Component {
         <Route path="/user-profile" component={UserProfile} />
         <Route path="/ErrorPages/403" component={NotAuthorize} />
         <Route path="/ErrorPages/401" component={TokenExpire} />
+        <Route path="/control/:roomId" component={Device} />
         {dashboardRoutes.map((prop, key) => {
           if (!localStorage.token) {
             return <Redirect from={prop.path} to='/user/login-page' key={key} />;

@@ -5,18 +5,21 @@ const Device = require("../models/Device")
 const Setting = require("../models/Setting")
 const Control = require("../models/Control")
 
-const client = mqtt.connect('tcp://13.76.250.158:1883', {
-  username: 'BKvm2',
-  password: 'Hcmut_CSE_2020'
-});
+// const client = mqtt.connect('tcp://13.76.250.158:1883', {
+//   username: 'BKvm2',
+//   password: 'Hcmut_CSE_2020'
+// });
+const client = mqtt.connect('mqtt://52.240.52.68:1883');
 
 const SENSOR = 'Topic/Light';
 const LIGHT = 'Topic/LightD';
+const SPEAKER = 'Topic/Speaker';
 
-const subcribeLightSensor = () => {
+const subcribeDevices = () => {
   client.on('connect', function () {
     client.subscribe(SENSOR);
     client.subscribe(LIGHT);
+    client.subscribe(SPEAKER);
   })
 
   client.on("message", async (topic, message) => {
@@ -42,6 +45,11 @@ const subcribeLightSensor = () => {
               time: dateTime
             })
             valueSensor.save();
+
+            Device.findOne({ _id: item.device_id, type: 'sensor' }).then(res => {
+              res.value = Number(item.values[0]);
+              res.save();
+            })
           } catch (error) {
             console.log(error);
           }
@@ -59,14 +67,19 @@ const subcribeLightSensor = () => {
                       var value = 255 - Math.round(item.values[0] / 4);
                       var isTurnOn = true;
                     }
+                    // update current value for device
+                    device.value = value;
+                    device.save();
+
                     control = new Control({
-                      userId: null,
+                      user: null,
                       deviceId: device._id,
                       value,
                       isTurnOn,
                       time: dateTime
                     })
                     control.save();
+
                     valueDevices.push({
                       device_id: device._id,
                       values: ["1", value.toString()]
@@ -82,6 +95,10 @@ const subcribeLightSensor = () => {
         console.log('============ DEVICE LIGHT ============');
         console.log(payload);
         console.log('Time', dateTime);
+      } else if(topic == SPEAKER) {
+        console.log('============ DEVICE SPEAKER ============');
+        console.log(payload);
+        console.log('Time', dateTime);
       }
     } catch (error) {
       console.log(error)
@@ -89,5 +106,5 @@ const subcribeLightSensor = () => {
   })
 }
 module.exports = {
-  subcribeLightSensor
+  subcribeDevices
 }

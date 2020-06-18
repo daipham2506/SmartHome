@@ -11,7 +11,7 @@ connectDB()
 app.use(express.json({ extended: false }))
 
 // import iot
-const { subcribeLightSensor } = require('./iot/light')
+const { subcribeDevices } = require('./iot/iot')
 
 // import test 
 const { publishLightSensor } = require('./test/light')
@@ -26,10 +26,12 @@ app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/setting', require('./routes/api/setting'))
 app.use('/api/control', require('./routes/api/control'))
 app.use('/api/sensor', require('./routes/api/sensor'))
+app.use('/api/room', require('./routes/api/room'))
+app.use('/api/device', require('./routes/api/device'))
 
-// publishLightSensor();
+publishLightSensor();
 
-// subcribeLightSensor();
+subcribeDevices();
 
 const PORT = process.env.PORT || 5000
 

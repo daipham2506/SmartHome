@@ -4,10 +4,12 @@ const SENSOR = 'Topic/Light';
 
 const publishLightSensor = () => {
 
-  var client = mqtt.connect('tcp://13.76.250.158:1883', {
-    username: "BKvm2",
-    password: "Hcmut_CSE_2020"
-  });
+  // var client = mqtt.connect('tcp://13.76.250.158:1883', {
+  //   username: "BKvm2",
+  //   password: "Hcmut_CSE_2020"
+  // });
+
+  const client = mqtt.connect('mqtt://52.240.52.68:1883');
 
   client.subscribe(SENSOR);
 
@@ -35,7 +37,7 @@ const publishLightSensor = () => {
         val1 = Math.floor(Math.random() * (700 - 200 + 1)) + 200;
       }
       client.publish(SENSOR,`[{ "device_id": "Light","values": ["${val.toString()}"]},{ "device_id": "Light1","values": ["${val1.toString()}"]}]`);
-    }, 60000);
+    }, 300000);
   });
 
 }

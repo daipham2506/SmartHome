@@ -6,6 +6,10 @@ const DeviceSchema = new mongoose.Schema({
 		type: Number,
 		ref: 'Room'
 	},
+	value: {
+		type: Number,
+		default: 0
+	},
 	type: {
 		type: String,
 		required: true
