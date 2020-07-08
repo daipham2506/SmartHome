@@ -29,6 +29,7 @@
     "react-swipeable-views": "0.12.13",
     "react-table": "6.8.0",
     "react-tagsinput": "3.19.0",
+    "recharts": "^1.8.5",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
