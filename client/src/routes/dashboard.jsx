@@ -17,7 +17,7 @@ import LoginPage from "../views/Pages/LoginPage";
 import RegisterPage from "views/Pages/RegisterPage.jsx";
 import Setting from "../views/Setting/Setting"
 import Control from "../views/Control/Control"
-
+import Chart from "../views/Chart/Chart"
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
 // import Apps from "material-ui-icons/Apps";
@@ -28,7 +28,7 @@ import PersonAdd from "material-ui-icons/PersonAdd";
 // import WbIncandescentIcon from 'material-ui-icons/WbIncandescent';
 import SettingsIcon from 'material-ui-icons/Settings';
 import SettingsRemoteIcon from 'material-ui-icons/SettingsRemote';
-
+import AssessmentIcon from 'material-ui-icons/Assessment';
 
 var dashboardRoutes = [
   {
@@ -48,6 +48,12 @@ var dashboardRoutes = [
     name: "Control", 
     icon: SettingsRemoteIcon, 
     component: Control 
+  },
+  {
+    path: "/chart",
+    name: "Chart",
+    icon:  AssessmentIcon,
+    component: Chart
   },
   { 
     path: "/add-user", 
