@@ -9,7 +9,10 @@ import {
   USER_LOADED,
   RESET,
   RESET_PASS_FAIL,
-  RESET_PASS_SUCCESS
+  RESET_PASS_SUCCESS,
+  FORGOT_PASS_FAIL,
+  FORGOT_PASS_SUCCESS,
+  RESET_MSG
 } from '../ActionType'
 
 import callApi from '../../utils/callApi'
@@ -99,9 +102,33 @@ export const resetPass = (pass) => async dispatch => {
   }
 }
 
+// Forgot password
+export const forgotPass = email => async dispatch => {
+  dispatch({ type: LOADING })
+  try {
+    const res = await callApi('/api/auth/forgot-pass', 'POST', email)
+    dispatch({
+      type: FORGOT_PASS_SUCCESS,
+      payload: res.data
+    })
+  } catch (err) {
+    const error = err.response.data;
+
+    dispatch({
+      type: FORGOT_PASS_FAIL,
+      payload: error
+    })
+  }
+} 
+
 // reset alert 
 export const reset = () => dispatch => {
   dispatch({ type: RESET })
+}
+
+// reset message 
+export const resetMsg = () => dispatch => {
+  dispatch({ type: RESET_MSG })
 }
 
 // logout 

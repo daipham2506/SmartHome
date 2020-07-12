@@ -22,7 +22,7 @@ import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginP
 
 import { verifyEmail } from '../../utils/validation'
 
-import { login } from '../../appRedux/actions/auth'
+import { login, resetMsg } from '../../appRedux/actions/auth'
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -127,7 +127,8 @@ class LoginPage extends React.Component {
                     <div>
                       {msg !== undefined &&
                         <Alert style={{ marginBottom: 20 }}
-                          message={msg} type="error" showIcon
+                          message={msg} type="error" showIcon closable
+                          onClose={() => this.props.resetMsg()}
                         />
                       }
 
@@ -197,4 +198,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { login })(withStyles(loginPageStyle)(LoginPage));
+export default connect(mapStateToProps, { login, resetMsg })(withStyles(loginPageStyle)(LoginPage));

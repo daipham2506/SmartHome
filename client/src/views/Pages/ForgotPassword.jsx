@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import { Alert, Spin } from "antd"
 
 // material-ui components
 import withStyles from "material-ui/styles/withStyles";
@@ -9,9 +11,12 @@ import ProfileCard from "components/Cards/ProfileCard.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
-import avatar from "assets/img/faces/avatar.jpg";
+import avatar from "assets/img/default-avatar.png";
 
 import lockScreenPageStyle from "assets/jss/material-dashboard-pro-react/views/lockScreenPageStyle.jsx";
+
+import { verifyEmail } from '../../utils/validation'
+import { forgotPass, resetMsg } from "../../appRedux/actions/auth"
 
 class ForgotPassword extends React.Component {
   constructor(props) {
@@ -26,28 +31,18 @@ class ForgotPassword extends React.Component {
   componentDidMount() {
     // we add a hidden class to the card and after 500 ms we delete it and the transition appears
     setTimeout(
-      function() {
+      function () {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       500
     );
   }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
+
   change(event, stateName, type) {
     switch (type) {
       case "email":
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
+        let check = verifyEmail(event.target.value) ? "success" : "error";
+        this.setState({ [stateName + "State"]: check });
         break;
       default:
         break;
@@ -67,11 +62,13 @@ class ForgotPassword extends React.Component {
   submit(e) {
     e.preventDefault();
     if (this.isValidated()) {
-
+      this.props.forgotPass({ email: this.state.email });
     }
   }
   render() {
     const { classes } = this.props;
+    const { msgForgot, check } = this.props.auth
+    const type = check === true ? "success" : "error"
     return (
       <div className={classes.content}>
         <form onSubmit={e => this.submit(e)}>
@@ -81,26 +78,38 @@ class ForgotPassword extends React.Component {
             }
             customCardAvatarClass={classes.customCardAvatarClass}
             customCardFooterClass={classes.customCardFooterClass}
-            title="Password Retrieval"
+            title="Forgot Password"
             avatar={avatar}
             content={
-              <CustomInput
-                success = { this.state.emailState === "success"}
-                error = { this.state.emailState === "error"}
-                labelText="Enter Email"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  onChange: e => this.change(e,"email", "email"),
-                  type: "email"
-                }}
-              />
+              <div>
+                {msgForgot !== undefined && 
+                  <Alert
+                    message={msgForgot} type={type} showIcon closable
+                    style={{ textAlign: "left", margin: "10px 0" }}
+                    onClose={() => this.props.resetMsg()}
+                  />
+                }
+
+                <CustomInput
+                  success={this.state.emailState === "success"}
+                  error={this.state.emailState === "error"}
+                  labelText="Enter Email"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    onChange: e => this.change(e, "email", "email"),
+                    type: "email"
+                  }}
+                />
+              </div>
             }
             footer={
-              <Button color="rose" round type="submit">
-                Confirm
+              <Spin spinning={this.props.auth.loading} >
+                <Button color="info" round type="submit">
+                  Confirm
               </Button>
+              </Spin>
             }
           />
         </form>
@@ -113,4 +122,10 @@ ForgotPassword.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(lockScreenPageStyle)(ForgotPassword);
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, { forgotPass, resetMsg })(withStyles(lockScreenPageStyle)(ForgotPassword));

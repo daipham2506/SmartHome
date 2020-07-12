@@ -9,7 +9,10 @@ import {
   ADD_USER_FAIL,
   RESET,
   RESET_PASS_SUCCESS,
-  RESET_PASS_FAIL
+  RESET_PASS_FAIL,
+  FORGOT_PASS_FAIL,
+  FORGOT_PASS_SUCCESS,
+  RESET_MSG
 } from '../ActionType'
 
 const initState = {
@@ -20,6 +23,7 @@ const initState = {
   msg: undefined,
   msgAdd: undefined,
   msgReset: undefined,
+  msgForgot: undefined,
   check: undefined
 }
 
@@ -102,6 +106,32 @@ export default (state = initState, action) => {
         check: false,
         loading: false
       }
+
+    case FORGOT_PASS_SUCCESS:
+      return {
+        ...state,
+        msgForgot: payload,
+        check: true,
+        loading: false
+      }
+
+    case FORGOT_PASS_FAIL:
+      return {
+        ...state,
+        msgForgot: payload,
+        check: false,
+        loading: false
+      }
+
+    case RESET_MSG:
+      return {
+        ...state,
+        msg: undefined,
+        msgAdd: undefined,
+        msgReset: undefined,
+        msgForgot: undefined,
+      }
+      
     default:
       return state
   }
