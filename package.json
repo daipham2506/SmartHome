@@ -27,6 +27,7 @@
     "mongoose": "^5.9.10",
     "mongoose-auto-increment": "^5.0.1",
     "mqtt": "^4.1.0",
+    "recharts": "^1.8.5",
     "request": "^2.88.2"
   },
   "devDependencies": {
