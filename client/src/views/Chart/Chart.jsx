@@ -12,12 +12,20 @@ const Chart = () => {
   useEffect(() => {
     callApi('/api/sensor/newest').then(res => {
       const new_data = res.data.filter((item, idx) => {
+        const [date, time] = item.time.split(' ');
+        const [day, month, year] = date.split('-');
+        const t = new Date(`${year}-${month}-${day} ${time}`).getTime();
+        const now = Date.now()
         if (status === 1) {
-          return idx % 3 === 0
+          return now - t < 3600000
         } else if (status === 2) {
-          return idx % 10 === 0
+          return now - t < 21600000
+        } else if (status === 3) {
+          return now - t < 86400000;
+        } else if (status === 4) {
+          return now - t < 1296000000;
         } else {
-          return idx % 30 === 0
+          return now - t < 2592000000
         }
       })
       setAllValueSensor(new_data);
@@ -25,12 +33,20 @@ const Chart = () => {
     const id = setInterval(() => {
       callApi('/api/sensor/newest').then(res => {
         const new_data = res.data.filter((item, idx) => {
+          const [date, time] = item.time.split(' ');
+          const [day, month, year] = date.split('-');
+          const t = new Date(`${year}-${month}-${day} ${time}`).getTime();
+          const now = Date.now()
           if (status === 1) {
-            return idx % 3 === 0
+            return now - t < 3600000
           } else if (status === 2) {
-            return idx % 10 === 0
+            return now - t < 21600000
+          } else if (status === 3) {
+            return now - t < 86400000;
+          } else if (status === 4) {
+            return now - t < 1296000000;
           } else {
-            return idx % 30 === 0
+            return now - t < 2592000000
           }
         })
         setAllValueSensor(new_data);
@@ -48,9 +64,11 @@ const Chart = () => {
   return (
     <div>
       <select value={status} onChange={handleChangeStatus}>
-        <option value={1}>Hour</option>
-        <option value={2}>Day</option>
-        <option value={3}>Month</option>
+        <option value={1}>1 hour ago</option>
+        <option value={2}>6 hour ago</option>
+        <option value={3}>1 day ago</option>
+        <option value={4}>15 day ago</option>
+        <option value={5}>month ago</option>
       </select>
 
       <AreaChart
