@@ -18,7 +18,7 @@ router.get('/all', async (req, res) => {
 
 router.get('/newest', async (req, res) => {
    try {
-      values = await ValueSensor.find().limit(500).sort({ _id: -1 });
+      values = await ValueSensor.find().sort({ _id: -1 });
       res.json(values);
    } catch (err) {
       console.log(err.message);
