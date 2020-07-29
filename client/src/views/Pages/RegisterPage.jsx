@@ -123,9 +123,9 @@ class RegisterPage extends React.Component {
     if (check !== prevProps.auth.check) {
       if (check === true) {
         message.success(msgAdd)
-        // redirect to dashboard
+        // redirect to manage user
         setTimeout(()=>{
-          this.props.history.push("/dashboard")
+          this.props.history.push("/manage-user")
         },1500)
       }
       else if (check === false) {

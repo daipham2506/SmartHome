@@ -26,6 +26,7 @@ import UserProfile from "views/Pages/UserProfile.jsx";
 
 import NotAuthorize from "../views/ErrorPages/NotAuthorize.jsx"
 import TokenExpire from "../views/ErrorPages/TokenExpire.jsx"
+import RegisterPage from "../views/Pages/RegisterPage"
 
 import Device from "../views/Control/Device.jsx"
 
@@ -87,15 +88,14 @@ class Dashboard extends React.Component {
         <Route path="/ErrorPages/403" component={NotAuthorize} />
         <Route path="/ErrorPages/401" component={TokenExpire} />
         <Route path="/control/:roomId" component={Device} />
+        <Route path="/add-user" component={this.state.user && this.state.user.isAdmin ? RegisterPage : NotAuthorize} />
         {dashboardRoutes.map((prop, key) => {
           if (!localStorage.token) {
             return <Redirect from={prop.path} to='/user/login-page' key={key} />;
           }
-          if (prop.name === "Add User") {
-            if (this.state.user) {
-              if (!this.state.user.isAdmin) {
-                return <Redirect from={prop.path} to="/ErrorPages/403" />;
-              }
+          if (prop.admin) {
+            if (this.state.user && !this.state.user.isAdmin) {
+              return <Redirect from={prop.path} to="/ErrorPages/403" />;
             }
           }
           if (prop.redirect)

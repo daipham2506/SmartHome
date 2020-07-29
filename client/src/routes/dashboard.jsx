@@ -14,10 +14,11 @@ import Dashboard from "views/Dashboard/Dashboard.jsx";
 // import ExtendedTables from "views/Tables/ExtendedTables.jsx";
 // import ReactTables from "views/Tables/ReactTables.jsx";
 import LoginPage from "../views/Pages/LoginPage";
-import RegisterPage from "views/Pages/RegisterPage.jsx";
 import Setting from "../views/Setting/Setting"
 import Control from "../views/Control/Control"
 import Chart from "../views/Chart/Chart"
+import ManageUser from "../views/ManageUser/ManageUser"
+
 // material-ui-icons
 import DashboardIcon from "material-ui-icons/Dashboard";
 // import Apps from "material-ui-icons/Apps";
@@ -56,10 +57,11 @@ var dashboardRoutes = [
     component: Chart
   },
   { 
-    path: "/add-user", 
-    name: "Add User", 
-    icon: PersonAdd, 
-    component: RegisterPage 
+    path: "/manage-user", 
+    name: "Manage User", 
+    icon: PersonAdd,
+    admin: true, 
+    component: ManageUser 
   },
   { 
     path: "/user/login-page", 

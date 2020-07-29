@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 const config = require("config")
 
 const User = require("../../models/User")
+const auth = require('../../middleware/auth')
 
 // @route   POST api/users
 // @Access  Public
@@ -63,6 +64,34 @@ router.post('/', async (req, res) => {
    } catch (err) {
       console.log(err.message);
       res.status(500).send("Server error")
+   }
+})
+
+// @route   GET api/users/all
+// @Access  Public
+router.get('/all', async (req, res) => {
+   try {
+      const users = await User.find().select("-password -avatar -isAdmin");
+      res.status(200).json(users);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Server error")
+   }
+})
+
+// @route   DELETE api/users/delete/:id
+// @Access  Private
+router.delete('/delete/:id', async (req, res) => {
+   try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+         return res.status(404).json('User not found');
+      }
+      await user.remove();
+      res.json('User removed');
+   } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
    }
 })
 

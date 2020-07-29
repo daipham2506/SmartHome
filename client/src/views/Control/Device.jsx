@@ -81,7 +81,7 @@ const Device = props => {
   useEffect(() => {
     const payload = getPayloadToken();
     if (payload) {
-      setUser(payload);
+      setUser(payload);  
     } else {
       localStorage.removeItem('token');
       props.history.push('/ErrorPages/401')
@@ -123,7 +123,8 @@ const Device = props => {
       deviceId: deviceId,
       type: 'light',
       value: lightVal,
-      time: dateTime
+      time: dateTime,
+      nameUser: user.name
     });
     setVisibleLight(false)
   };
@@ -135,7 +136,8 @@ const Device = props => {
       deviceId: deviceId,
       type: 'speaker',
       value: speakerVal,
-      time: dateTime
+      time: dateTime,
+      nameUser: user.name
     });
     setVisibleSpeaker(false)
   };

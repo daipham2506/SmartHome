@@ -12,9 +12,14 @@ export const USER_LOADED = 'USER_LOADED'
 export const RESET_PASS_SUCCESS = 'RESET_PASS_SUCCESS'
 export const RESET_PASS_FAIL = 'RESET_PASS_FAIL'
 
+export const FORGOT_PASS_SUCCESS = 'FORGOT_PASS_SUCCESS'
+export const FORGOT_PASS_FAIL = 'FORGOT_PASS_FAIL'
+
 export const LOGOUT = 'LOGOUT'
 
 export const RESET = 'RESET'
+
+export const RESET_MSG = 'RESET_MSG'
 
 // SETTING
 export const LOADING_SETTING = 'LOADING_SETTING'
