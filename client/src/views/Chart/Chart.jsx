@@ -36,6 +36,7 @@ const Chart = () => {
 
   return (
     <div >
+      <h5 style={{textAlign: 'center'}}><a>VALUES OF SENSOR</a></h5>
       <Select onChange={value => setStatus(parseInt(value, 10))} style={{width:150 , marginLeft: 250, marginBottom:20}} defaultValue="4">
         <Select.Option value="1">1 hour ago</Select.Option>
         <Select.Option value="2">6 hours ago</Select.Option>

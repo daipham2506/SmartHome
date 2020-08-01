@@ -37,7 +37,7 @@ const publishLightSensor = () => {
         val1 = Math.floor(Math.random() * (700 - 200 + 1)) + 200;
       }
       client.publish(SENSOR,`[{ "device_id": "Light","values": ["${val.toString()}"]},{ "device_id": "Light1","values": ["${val1.toString()}"]}]`);
-    }, 300000);
+    }, 1800000);
   });
 
 }

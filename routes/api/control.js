@@ -15,7 +15,7 @@ const client = mqtt.connect('mqtt://52.240.52.68:1883');
 // @Desc    get all control
 router.get('/all', async (req, res) => {
    try {
-      controls = await Control.find().sort({ _id: -1 }).populate('user');
+      controls = await Control.find().limit(1000).sort({ _id: -1 }).populate('user');
       res.json(controls);
    } catch (err) {
       console.log(err.message);

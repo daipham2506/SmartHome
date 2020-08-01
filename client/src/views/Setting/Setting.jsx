@@ -64,7 +64,7 @@ const Setting = props => {
     }
   }, [check])
 
-  const handleSave = () => {
+  const handleSave = (val = null) => {
     let today = new Date(); 
     let dd = today.getDate(); 
     let mm = today.getMonth() + 1;
@@ -76,7 +76,7 @@ const Setting = props => {
     
     props.lightSensorSetting({
       type: "sensor",
-      value: lightSensorVal,
+      value: val ? val : lightSensorVal,
       time: dateTime
     });
   }
@@ -113,8 +113,8 @@ const Setting = props => {
     {
       title: 'Action',
       key: 'action',
-      render: () => (
-        <Button>Delete</Button>
+      render: (item) => (
+        <Button type="primary" disabled={!user.isAdmin} onClick={() => handleSave(item.value)}>Apply</Button>
       )
     },
   ];
@@ -127,7 +127,7 @@ const Setting = props => {
             <Button
               type="primary"
               disabled={!(user.isAdmin && lightSensorVal !== lastVal)}
-              onClick={handleSave}
+              onClick={() => handleSave()}
             > Save
           </Button>}
         >
