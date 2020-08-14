@@ -96,7 +96,7 @@ const Dashboard = props => {
       setAllControl(res.data);
     })
     //get all values sensor
-    callApi('/api/sensor/all').then(res => {
+    callApi('/api/sensor/newest').then(res => {
       setAllValueSensor(res.data);
     })
 
@@ -106,7 +106,7 @@ const Dashboard = props => {
         setAllControl(res.data);
       })
       //get all values sensor
-      callApi('/api/sensor/all').then(res => {
+      callApi('/api/sensor/newest').then(res => {
         setAllValueSensor(res.data);
       })
     }, 30000);
