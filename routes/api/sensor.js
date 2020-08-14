@@ -8,7 +8,7 @@ const ValueSensor = require("../../models/ValueSensor")
 // @Desc    get all value sensor
 router.get('/all', async (req, res) => {
    try {
-      values = await (await ValueSensor.find()).sort({ _id: -1 });
+      values = await ValueSensor.find().sort({ _id: -1 });
       res.json(values);
    } catch (err) {
       console.log(err.message);
